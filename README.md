@@ -9,7 +9,7 @@ combinations.
 - [Usage](#usage)
 - [Unit Testing](#unit-testing)
 - [Functionality](#functionality)
-- [Project Submission Status](#project-submission-status)
+- [Planned Updates](#planned-updates)
 
 ## Introduction
 
@@ -111,10 +111,9 @@ During conversion for `DNA`, `mRNA`, and `tRNA`, each of these bases are
 translated to a number so that conversion can be completed without creating
 duplicate base entries within the sequence.
 
-## Project Submission Status
+## Planned Updates
 
-Because of the assignment restriction of approximately 500 total lines of code,
-the following functionality is not completely implemented (but planned for
+The following functionality is not completely implemented (but planned for
 future versions):
 
 - tRNA > Protein Conversion.
@@ -125,22 +124,3 @@ future versions):
 - Protein > DNA Conversion.
 - Public/Private class method implementation.
 - Output testing with BLAST.
-
-At present, the following functionality is implemented and as stable as possible
-within the assignment time limit.
-
-- Argument validation using `sys.argv` instead of `argparse` so arguments could
-  perform function calls directly.
-- Completed help argument.
-- Completed version argument.
-- Project metadata stored as variables within the `cli.py` file.
-- DNA > mRNA Conversion.
-- mRNA > tRNA Conversion.
-- Detect whether or not a file exists.
-- Detect whether or not a file is in FASTA format.
-- Break down the contents of a file into a single string for processing and
-  sequence conversion, stripping the FASTA header.
-- Create a FASTA format output file from the results generated at the standard
-  length of 60 columns.
-- Unit testing files for both `main.py` and `cli.py` within the `seqconvert`
-  project directory.
