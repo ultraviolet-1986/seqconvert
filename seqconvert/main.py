@@ -113,25 +113,45 @@ class SeqConvert():
         base_2 = '2'  # Thymine
         base_3 = '3'  # Guanine
         base_4 = '4'  # Cytosine
+        base_5 = '5'  # Adenine (lower case)
+        base_6 = '6'  # Thymine (lower case)
+        base_7 = '7'  # Guanine (lower case)
+        base_8 = '8'  # Cytosine (lower case)
 
         # DNA/RNA Bases.
-        adenine = 'A'   # Base 1
-        thymine = 'T'   # Base 2
-        guanine = 'G'   # Base 3
-        cytosine = 'C'  # Base 4
-        uracil = 'U'    # Base 5
+        upper_adenine = 'A'   # Base 1
+        upper_thymine = 'T'   # Base 2
+        upper_guanine = 'G'   # Base 3
+        upper_cytosine = 'C'  # Base 4
+        upper_uracil = 'U'    # Base 5
+
+        lower_adenine = 'a'   # Base 1
+        lower_thymine = 't'   # Base 2
+        lower_guanine = 'g'   # Base 3
+        lower_cytosine = 'c'  # Base 4
+        lower_uracil = 'u'    # Base 5
 
         # Replace DNA Bases with substitution string.
-        contents = contents.replace(adenine, base_1)   # A > 1
-        contents = contents.replace(thymine, base_2)   # T > 2
-        contents = contents.replace(guanine, base_3)   # G > 3
-        contents = contents.replace(cytosine, base_4)  # C > 4
+        contents = contents.replace(upper_adenine, base_1)   # A > 1
+        contents = contents.replace(upper_thymine, base_2)   # T > 2
+        contents = contents.replace(upper_guanine, base_3)   # G > 3
+        contents = contents.replace(upper_cytosine, base_4)  # C > 4
+
+        contents = contents.replace(lower_adenine, base_5)   # a > 5
+        contents = contents.replace(lower_thymine, base_6)   # t > 6
+        contents = contents.replace(lower_guanine, base_7)   # g > 7
+        contents = contents.replace(lower_cytosine, base_8)  # c > 8
 
         # Replace substitution string with mRNA bases.
-        contents = contents.replace(base_1, uracil)    # 1 > U
-        contents = contents.replace(base_2, adenine)   # 2 > A
-        contents = contents.replace(base_3, cytosine)  # 3 > C
-        contents = contents.replace(base_4, guanine)   # 4 > G
+        contents = contents.replace(base_1, upper_uracil)    # 1 > U
+        contents = contents.replace(base_2, upper_adenine)   # 2 > A
+        contents = contents.replace(base_3, upper_cytosine)  # 3 > C
+        contents = contents.replace(base_4, upper_guanine)   # 4 > G
+
+        contents = contents.replace(base_5, lower_uracil)    # 1 > u
+        contents = contents.replace(base_6, lower_adenine)   # 2 > a
+        contents = contents.replace(base_7, lower_cytosine)  # 3 > c
+        contents = contents.replace(base_8, lower_guanine)   # 4 > g
 
         # Format sequence to 60-columns FASTA-style.
         contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
