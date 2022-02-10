@@ -108,6 +108,8 @@ class SeqConvert():
         # 'contents'.
         contents = self.read_from_file(sequence)
 
+        # TODO Replace swapping mechanism to use dictionary.
+
         # Substitution Bases.
         base_1 = '1'  # Adenine
         base_2 = '2'  # Thymine
