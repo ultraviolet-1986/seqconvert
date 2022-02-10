@@ -109,6 +109,7 @@ class SeqConvert():
         contents = self.read_from_file(sequence)
 
         # TODO Replace swapping mechanism to use dictionary.
+        # TODO Research means of swapping between two dictionaries.
         bases = {
             'A':'0', 'T':'1', 'G':'2', 'C':'3', 'U':'4',
             'a':'5', 't':'6', 'g':'7', 'c':'8', 'u':'9'
