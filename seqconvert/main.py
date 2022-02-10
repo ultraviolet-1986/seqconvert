@@ -109,6 +109,12 @@ class SeqConvert():
         contents = self.read_from_file(sequence)
 
         # TODO Replace swapping mechanism to use dictionary.
+        bases = {
+            'A':'0', 'T':'1', 'G':'2', 'C':'3', 'U':'4',
+            'a':'5', 't':'6', 'g':'7', 'c':'8', 'u':'9'
+        }
+
+        bases_swap = {value:key for key, value in bases.items()}
 
         # Substitution Bases.
         base_1 = '1'  # Adenine
