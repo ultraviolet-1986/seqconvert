@@ -44,5 +44,51 @@ for key,value in dict_rna_proteins.items():
 print(dict_rna_proteins)
 print()
 print(dict_rna_codons)
+print()
+
+sequence = "IVGGWECEQHSQPWQAALYHFSTFQCGGILVHRQWVLTAAHCISDNYQLWLGRHNLFDDENTAQFVHVSESFPHPGFNMSLLENHTRQADEDYSHDLMLLRLTEPADTITDAVKVVELPTEEPEVGSTCLASGWGSIEPENFSFPDDLQCVDLKILPNDECKKAHVQKVTDFMLCVGHLEGGKDTCVGDSGGPLMCDGVLQGVTSWGYVPCGTPNKPSVAVRVLSYVKWIEDTIAENS"
+
+# Break down a sequence into a parsable string.
+def split_sequence(sequence):
+    split_codons = []
+    codon = 3
+
+    for index in range(0, len(sequence), codon):
+        split_codons.append(sequence[index : index + codon])
+
+    print("\nReturned xNA sequence:")
+    print(split_codons)
+
+
+split_sequence(sequence)
+
+
+
+def split_protein_sequence(sequence):
+    split_codons = []
+    n = 1
+
+    for index in range(0, len(sequence), n):
+        split_codons.append(sequence[index : index + n])
+
+    # print("\nReturned Protein sequence:")
+    # print(split_codons)
+
+    return split_codons
+
+
+split = split_protein_sequence(sequence)
+print()
+print(split)
+
+string = ""
+
+for i in split:
+    # Print first matching codon, remove '[0]' for all possible combos.
+    print(i, dict_rna_proteins[i][0])
+    string += str(dict_rna_proteins[i][0])
+
+print(string)
+
 
 # End of File.
