@@ -56,7 +56,7 @@ def protein_to_trna(sequence):
         # Print first matching codon, remove '[0]' for all possible combos.
         string += str(DICT_PROTEIN_TO_CODON[i][0])
 
-    print("\n{string}")
+    print("\n{0}".format(string))
     return string
 
 
@@ -74,7 +74,7 @@ def trna_to_protein(sequence):
         # Print first matching codon, remove '[0]' for all possible combos.
         string += str(DICT_CODON_TO_PROTEIN[i][0])
 
-    print("\n{string}")
+    print("\n{0}".format(string))
     return string
 
 
