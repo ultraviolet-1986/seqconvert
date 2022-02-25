@@ -45,10 +45,10 @@ def protein_to_trna(sequence):
     """Convert Protein sequence to tRNA sequence."""
 
     split_codons = []
-    n = 1
+    codon = 1
 
-    for index in range(0, len(sequence), n):
-        split_codons.append(sequence[index : index + n])
+    for index in range(0, len(sequence), codon):
+        split_codons.append(sequence[index : index + codon])
 
     string = ""
 
@@ -56,7 +56,7 @@ def protein_to_trna(sequence):
         # Print first matching codon, remove '[0]' for all possible combos.
         string += str(DICT_PROTEIN_TO_CODON[i][0])
 
-    print("\n{0}".format(string))
+    print(f"\n{string}")
     return string
 
 
@@ -74,7 +74,7 @@ def trna_to_protein(sequence):
         # Print first matching codon, remove '[0]' for all possible combos.
         string += str(DICT_CODON_TO_PROTEIN[i][0])
 
-    print("\n{0}".format(string))
+    print(f"\n{string}")
     return string
 
 
@@ -83,14 +83,14 @@ def trna_to_protein(sequence):
 #############
 
 # Example sequence
-protein_sequence = (
+PROTEIN_SEQUENCE = (
     "IVGGWECEQHSQPWQAALYHFSTFQCGGILVHRQWVLTAAHCISDNYQLWLGRHNLFDDENTAQFVHVSESFPHPGFNMSLLENHTRQADEDY"
     "SHDLMLLRLTEPADTITDAVKVVELPTEEPEVGSTCLASGWGSIEPENFSFPDDLQCVDLKILPNDECKKAHVQKVTDFMLCVGHLEGGKDTC"
     "VGDSGGPLMCDGVLQGVTSWGYVPCGTPNKPSVAVRVLSYVKWIEDTIAENS"
 )
 
 # Translated example sequence
-codon_sequence = (
+CODON_SEQUENCE = (
     "AUUGUUGGUGGUUGGGAAUGUGAACAACAUUCUCAACCUUGGCAAGCUGCUUUAUAUCAUUUUUCUACUUUUCAAUGUGGUGGUAUUUUAGUU"
     "CAUCGUCAAUGGGUUUUAACUGCUGCUCAUUGUAUUUCUGAUAAUUAUCAAUUAUGGUUAGGUCGUCAUAAUUUAUUUGAUGAUGAAAAUACU"
     "GCUCAAUUUGUUCAUGUUUCUGAAUCUUUUCCUCAUCCUGGUUUUAAUAUGUCUUUAUUAGAAAAUCAUACUCGUCAAGCUGAUGAAGAUUAU"
@@ -101,7 +101,7 @@ codon_sequence = (
     "UCUGUUGCUGUUCGUGUUUUAUCUUAUGUUAAAUGGAUUGAAGAUACUAUUGCUGAAAAUUCU"
 )
 
-protein_to_trna(protein_sequence)
-trna_to_protein(codon_sequence)
+protein_to_trna(PROTEIN_SEQUENCE)
+trna_to_protein(CODON_SEQUENCE)
 
 # End of File.
