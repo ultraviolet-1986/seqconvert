@@ -20,27 +20,27 @@ import sys
 #############
 
 DICT_PROTEIN_TO_CODON = {
-    'A':['GCU', 'GCC', 'GCA', 'GCG'],                  # A / Ala / Alanine
-    'C':['UGU', 'UGC'],                                # C / Cys / Cysteine
-    'D':['GAU', 'GAC'],                                # D / Asp / Aspartic Acid
-    'E':['GAA', 'GAG'],                                # E / Glu / Glutamic Acid
-    'F':['UUU', 'UUC'],                                # F / Phe / Phenylalanine
-    'G':['GGU', 'GGC', 'GGA', 'GGG'],                  # G / Gly / Glycine
-    'H':['CAU', 'CAC'],                                # H / His / Histidine
-    'I':['AUU','AUC', 'AUA'],                          # I / Ile / Isoleucine
-    'K':['AAA', 'AAG'],                                # K / Lys / Lysine
-    'L':['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],    # L / Leu / Leucine
-    'M':['AUG'],                                       # M / Met / Methionine
-    'N':['AAU', 'AAC'],                                # N / Asn / Asparagine
-    'P':['CCU', 'CCC', 'CCA', 'CCG'],                  # P / Pro / Proline
-    'Q':['CAA', 'CAG'],                                # Q / Gln / Glutamine
-    'R':['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],    # R / Arg / Arginine
-    'S':['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],    # S / Ser / Serine
-    'T':['ACU', 'ACC', 'ACA', 'ACG'],                  # T / Thr / Threonine
-    'V':['GUU', 'GUC', 'GUA', 'GUG'],                  # V / Val / Valine
-    'W':['UGG'],                                       # W / Trp / Tryptophan
-    'Y':['UAU', 'UAC'],                                # Y / Tyr / Tyrosine
-    'stop':['UAA', 'UAG', 'UGA']                       # Stop Codons
+    'A':['GCU', 'GCC', 'GCA', 'GCG'],                # A / Ala / Alanine
+    'C':['UGU', 'UGC'],                              # C / Cys / Cysteine
+    'D':['GAU', 'GAC'],                              # D / Asp / Aspartic Acid
+    'E':['GAA', 'GAG'],                              # E / Glu / Glutamic Acid
+    'F':['UUU', 'UUC'],                              # F / Phe / Phenylalanine
+    'G':['GGU', 'GGC', 'GGA', 'GGG'],                # G / Gly / Glycine
+    'H':['CAU', 'CAC'],                              # H / His / Histidine
+    'I':['AUU','AUC', 'AUA'],                        # I / Ile / Isoleucine
+    'K':['AAA', 'AAG'],                              # K / Lys / Lysine
+    'L':['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],  # L / Leu / Leucine
+    'M':['AUG'],                                     # M / Met / Methionine
+    'N':['AAU', 'AAC'],                              # N / Asn / Asparagine
+    'P':['CCU', 'CCC', 'CCA', 'CCG'],                # P / Pro / Proline
+    'Q':['CAA', 'CAG'],                              # Q / Gln / Glutamine
+    'R':['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],  # R / Arg / Arginine
+    'S':['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],  # S / Ser / Serine
+    'T':['ACU', 'ACC', 'ACA', 'ACG'],                # T / Thr / Threonine
+    'V':['GUU', 'GUC', 'GUA', 'GUG'],                # V / Val / Valine
+    'W':['UGG'],                                     # W / Trp / Tryptophan
+    'Y':['UAU', 'UAC'],                              # Y / Tyr / Tyrosine
+    'stop':['UAA', 'UAG', 'UGA']                     # Stop Codons
 }
 
 # Reverse keys/values of 'dict_protein_to_codon'.
@@ -88,14 +88,14 @@ class SeqConvert():
         #   regardless of the inclusion of 'return'.
 
         # Read first line of the sequence file.
-        with open(sequence) as file:
+        with open(sequence, encoding="utf8") as file:
             first_line = file.readline()
 
         # Check that first character of first line is '>'.
         # Primitive FASTA file check.
         if first_line[0] == '>':
             # Parse the 'sequence' file to generate output.
-            with open(sequence , 'r') as file:
+            with open(sequence , 'r', encoding="utf8") as file:
                 output = file.readlines()
 
             # Remove index line from 'output'.
@@ -125,9 +125,9 @@ class SeqConvert():
         sequence = filename + "-converted" + extension
 
         # Write results to file.
-        output = open(sequence, 'w+')
-        output.write(contents)
-        output.close()
+        with open(sequence, 'w+', encoding="utf8") as output:
+            output.write(contents)
+            output.close()
 
         # Print status.
         print("\nSUCCESS: Sequence written to '", sequence, "'.", sep='')
@@ -144,9 +144,6 @@ class SeqConvert():
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
         contents = self.read_from_file(sequence)
-
-        # TODO Replace swapping mechanism to use dictionary.
-        # TODO Research means of swapping between two dictionaries.
         bases = {
             'A':'0', 'T':'1', 'G':'2', 'C':'3', 'U':'4',
             'a':'5', 't':'6', 'g':'7', 'c':'8', 'u':'9'
