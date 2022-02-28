@@ -59,6 +59,9 @@ for key, value in DICT_PROTEIN_TO_CODON.items():
 class SeqConvert():
     """Main 'seqconvert' class for converting between sequence types."""
 
+    # TODO Place base and codon variables here.
+    # TODO Correct the 'key, value' definition error (pylint).
+
     # PyLint Directives
     # pylint: disable=no-self-use
 
