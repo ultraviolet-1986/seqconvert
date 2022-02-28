@@ -45,7 +45,7 @@ DICT_PROTEIN_TO_CODON = {
 
 # Reverse keys/values of 'dict_protein_to_codon'.
 DICT_CODON_TO_PROTEIN = {}
-for key,value in DICT_PROTEIN_TO_CODON.items():
+for key, value in DICT_PROTEIN_TO_CODON.items():
     for val in value:
         if val in DICT_CODON_TO_PROTEIN:
             DICT_CODON_TO_PROTEIN[val].append(key)
@@ -74,130 +74,70 @@ class SeqConvert():
         """Initialisation class for 'seqconvert' program."""
         self.sequence = sequence
 
+# NEW SECTION #####################################################################################
 
-    # FILE HANDLING AND FORMATTING METHODS > TO MAKE PRIVATE
+    def read_fasta_file(self, file):
+        """Read a FASTA file and return its xNA sequence as a string."""
 
-    def read_from_file(self, sequence):
-        """Read a sequence from a specified file."""
+        with open (file, encoding="utf-8") as fasta_file:
+            header = fasta_file.readline()
 
-        # PyLint Directives
-        # pylint: disable=no-else-return
+        if header[0] == '>':
+            with open(file, 'r', encoding='utf-8') as fasta_file:
+                sequence = fasta_file.readlines()
 
-        # PyLint Notes
-        # - This directive is a false positive as each condition is met
-        #   regardless of the inclusion of 'return'.
+            sequence.pop(0)
+            sequence = ''.join(sequence)
+            sequence = sequence.replace('\n', '')
 
-        # Read first line of the sequence file.
-        with open(sequence, encoding="utf8") as file:
-            first_line = file.readline()
+            return sequence
 
-        # Check that first character of first line is '>'.
-        # Primitive FASTA file check.
-        if first_line[0] == '>':
-            # Parse the 'sequence' file to generate output.
-            with open(sequence , 'r', encoding="utf8") as file:
-                output = file.readlines()
-
-            # Remove index line from 'output'.
-            output.pop(0)
-
-            # Convert the contents of the file to a single string.
-            output = ''.join(output)
-
-            # Remove all newline characters.
-            output = output.replace('\n', '')
-
-            # Return the output.
-            return output
-
-        else:
-            print("ERROR: File does not appear to be in FASTA format.")
-            sys.exit(1)
+        print("ERROR: File does not appear to be FASTA format.")
+        sys.exit(1)
 
 
-    def write_to_file(self, sequence, contents):
-        """Write a sequence to a specified file."""
+    def write_fasta_file(self, file, contents):
+        """Write a FASTA-formatted sequence to file."""
 
-        # Find filename extension.
-        filename, extension = os.path.splitext(sequence)
+        filename, extension = os.path.splitext(file)
 
-        # Construct new filename.
-        sequence = filename + "-converted" + extension
+        out_file = f"{filename} (converted){extension}"
 
-        # Write results to file.
-        with open(sequence, 'w+', encoding="utf8") as output:
-            output.write(contents)
-            output.close()
+        with open(out_file, 'w+', encoding='utf-8') as fasta_file:
+            fasta_file.write(contents)
+            fasta_file.close()
 
-        # Print status.
-        print("\nSUCCESS: Sequence written to '", sequence, "'.", sep='')
+        print(f"\nSUCCESS: Sequence written to '{out_file}'.")
 
 
     # SINGLE-STEP CONVERSION FUNCTIONS > PUBLIC METHODS
 
-    def dna_to_mrna(self, sequence):
+    def dna_to_mrna(self, file):
         """Convert DNA sequence to mRNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | DNA > mRNA Translation\n"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_from_file(sequence)
-        bases = {
-            'A':'0', 'T':'1', 'G':'2', 'C':'3', 'U':'4',
-            'a':'5', 't':'6', 'g':'7', 'c':'8', 'u':'9'
+        sequence = self.read_fasta_file(file)
+
+        dna_bases = {
+            'A':'0', 'T':'1', 'G':'2', 'C':'3',
+            'a':'4', 't':'5', 'g':'6', 'c':'7'
         }
 
-        bases_swap = {value:key for key, value in bases.items()}
+        rna_bases = {
+            'A':'1', 'U':'0', 'G':'3', 'C':'2',
+            'a':'5', 'u':'4', 'g':'7', 'c':'6'
+        }
 
-        # Substitution Bases.
-        base_1 = '1'  # Adenine
-        base_2 = '2'  # Thymine
-        base_3 = '3'  # Guanine
-        base_4 = '4'  # Cytosine
-        base_5 = '5'  # Adenine (lower case)
-        base_6 = '6'  # Thymine (lower case)
-        base_7 = '7'  # Guanine (lower case)
-        base_8 = '8'  # Cytosine (lower case)
+        for key, value in dna_bases.items():
+            sequence = sequence.replace(key, value)
 
-        # DNA/RNA Bases.
-        upper_adenine = 'A'   # Base 1
-        upper_thymine = 'T'   # Base 2
-        upper_guanine = 'G'   # Base 3
-        upper_cytosine = 'C'  # Base 4
-        upper_uracil = 'U'    # Base 5
+        for key, value in rna_bases.items():
+            sequence = sequence.replace(value, key)
 
-        lower_adenine = 'a'   # Base 1
-        lower_thymine = 't'   # Base 2
-        lower_guanine = 'g'   # Base 3
-        lower_cytosine = 'c'  # Base 4
-        lower_uracil = 'u'    # Base 5
-
-        # Replace DNA Bases with substitution string.
-        contents = contents.replace(upper_adenine, base_1)   # A > 1
-        contents = contents.replace(upper_thymine, base_2)   # T > 2
-        contents = contents.replace(upper_guanine, base_3)   # G > 3
-        contents = contents.replace(upper_cytosine, base_4)  # C > 4
-
-        contents = contents.replace(lower_adenine, base_5)   # a > 5
-        contents = contents.replace(lower_thymine, base_6)   # t > 6
-        contents = contents.replace(lower_guanine, base_7)   # g > 7
-        contents = contents.replace(lower_cytosine, base_8)  # c > 8
-
-        # Replace substitution string with mRNA bases.
-        contents = contents.replace(base_1, upper_uracil)    # 1 > U
-        contents = contents.replace(base_2, upper_adenine)   # 2 > A
-        contents = contents.replace(base_3, upper_cytosine)  # 3 > C
-        contents = contents.replace(base_4, upper_guanine)   # 4 > G
-
-        contents = contents.replace(base_5, lower_uracil)    # 1 > u
-        contents = contents.replace(base_6, lower_adenine)   # 2 > a
-        contents = contents.replace(base_7, lower_cytosine)  # 3 > c
-        contents = contents.replace(base_8, lower_guanine)   # 4 > g
 
         # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
+        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
 
         # Insert FASTA header to mRNA sequence.
         contents = header + contents
@@ -206,7 +146,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(file, contents)
 
         # Return translated sequence.
         return contents
@@ -220,7 +160,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # Substitution Bases.
         base_1 = '1'  # Adenine
@@ -256,7 +196,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -270,7 +210,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         ###########################################################################################
         split_codons = []
@@ -297,7 +237,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -311,7 +251,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # TODO INSERT CONVERSION CODE HERE
 
@@ -325,7 +265,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -339,7 +279,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # TODO INSERT CONVERSION CODE HERE
 
@@ -353,7 +293,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -367,7 +307,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # TODO INSERT CONVERSION CODE HERE
 
@@ -381,7 +321,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -397,7 +337,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # TODO INSERT CONVERSION CODE HERE
 
@@ -411,7 +351,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
@@ -425,7 +365,7 @@ class SeqConvert():
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
-        contents = self.read_from_file(sequence)
+        contents = self.read_fasta_file(sequence)
 
         # TODO INSERT CONVERSION CODE HERE
 
@@ -439,7 +379,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_to_file(sequence, contents)
+        self.write_fasta_file(sequence, contents)
 
         # Return translated sequence.
         return contents
