@@ -40,7 +40,7 @@ DICT_PROTEIN_TO_CODON = {
     'V':['GUU', 'GUC', 'GUA', 'GUG'],                # V / Val / Valine
     'W':['UGG'],                                     # W / Trp / Tryptophan
     'Y':['UAU', 'UAC'],                              # Y / Tyr / Tyrosine
-    'stop':['UAA', 'UAG', 'UGA']                     # Stop Codons
+    '*':['UAA', 'UAG', 'UGA']                        # Stop Codons
 }
 
 # Reverse keys/values of 'dict_protein_to_codon'.
