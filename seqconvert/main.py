@@ -138,70 +138,46 @@ class SeqConvert():
         for key, value in rna_bases.items():
             sequence = sequence.replace(value, key)
 
-
-        # Format sequence to 60-columns FASTA-style.
         contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-
-        # Insert FASTA header to mRNA sequence.
         contents = header + contents
 
-        # Print translated sequence.
         print(contents)
 
-        # Write updated version of 'contents' to a new file.
         self.write_fasta_file(file, contents)
 
-        # Return translated sequence.
         return contents
 
 
-    def mrna_to_trna(self, sequence):
+    def mrna_to_trna(self, file):
         """Convert mRNA sequence to tRNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | mRNA > tRNA Translation\n"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
 
-        # Substitution Bases.
-        base_1 = '1'  # Adenine
-        base_2 = '2'  # Uracil
-        base_3 = '3'  # Guanine
-        base_4 = '4'  # Cytosine
+        mrna_bases = {
+            'A':'0', 'U':'1', 'G':'2', 'C':'3',
+            'a':'4', 'u':'5', 'g':'6', 'c':'7'
+        }
 
-        # RNA Bases.
-        adenine = 'A'   # Base 1
-        uracil = 'U'    # Base 2
-        guanine = 'G'   # Base 3
-        cytosine = 'C'  # Base 4
+        trna_bases = {
+            'A':'1', 'U':'0', 'G':'3', 'C':'2',
+            'a':'5', 'u':'4', 'g':'7','c':'6'
+        }
 
-        # Replace mRNA Bases with substitution string.
-        contents = contents.replace(adenine, base_1)   # A > 1
-        contents = contents.replace(uracil, base_2)    # U > 2
-        contents = contents.replace(guanine, base_3)   # G > 3
-        contents = contents.replace(cytosine, base_4)  # C > 4
+        for key, value in mrna_bases.items():
+            sequence = sequence.replace(key, value)
 
-        # Replace substitution string with tRNA bases.
-        contents = contents.replace(base_1, uracil)    # 1 > U
-        contents = contents.replace(base_2, adenine)   # 2 > A
-        contents = contents.replace(base_3, cytosine)  # 3 > C
-        contents = contents.replace(base_4, guanine)   # 4 > G
+        for key, value in trna_bases.items():
+            sequence = sequence.replace(value, key)
 
-        # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
-
-        # Insert FASTA header to mRNA sequence.
+        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
         contents = header + contents
 
-        # Print translated sequence.
         print(contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(file, contents)
 
-        # Return translated sequence.
         return contents
 
 
