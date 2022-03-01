@@ -22,16 +22,6 @@ import sys
 class SeqConvert():
     """Main 'seqconvert' class for converting between sequence types."""
 
-    # PyLint Directives
-    # pylint: disable=no-self-use
-
-    # PyLint Notes
-    # - File handling may be converted to function instead of method in
-    #   a future release. Disable warning temporarily.
-    # - TODOs are left intact to help highlight where code needs to be
-    #   changed in the next planned version of this software.
-
-
     # CLASS VARIABLES > CODON DICTIONARIES
 
     protein_to_codon = {
@@ -90,7 +80,7 @@ class SeqConvert():
             sequence = ''.join(sequence)
             sequence = sequence.replace('\n', '')
 
-            return sequence
+            return self.sequence
 
         print("ERROR: File does not appear to be FASTA format.")
         sys.exit(1)
@@ -98,6 +88,9 @@ class SeqConvert():
 
     def write_fasta_file(self, file, contents):
         """Write a FASTA-formatted sequence to file."""
+
+        # PyLint Directives
+        # pylint: disable=no-self-use
 
         filename, extension = os.path.splitext(file)
 
@@ -124,7 +117,7 @@ class SeqConvert():
             'a':'4', 't':'5', 'g':'6', 'c':'7'
         }
 
-        rna_bases = {
+        mrna_bases = {
             'A':'1', 'U':'0', 'G':'3', 'C':'2',
             'a':'5', 'u':'4', 'g':'7', 'c':'6'
         }
@@ -132,7 +125,7 @@ class SeqConvert():
         for key, value in dna_bases.items():
             sequence = sequence.replace(key, value)
 
-        for key, value in rna_bases.items():
+        for key, value in mrna_bases.items():
             sequence = sequence.replace(value, key)
 
         contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
