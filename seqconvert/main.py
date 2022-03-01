@@ -15,52 +15,12 @@ import re
 import os
 import sys
 
-#############
-# Variables #
-#############
-
-DICT_PROTEIN_TO_CODON = {
-    'A':['GCU', 'GCC', 'GCA', 'GCG'],                # A / Ala / Alanine
-    'C':['UGU', 'UGC'],                              # C / Cys / Cysteine
-    'D':['GAU', 'GAC'],                              # D / Asp / Aspartic Acid
-    'E':['GAA', 'GAG'],                              # E / Glu / Glutamic Acid
-    'F':['UUU', 'UUC'],                              # F / Phe / Phenylalanine
-    'G':['GGU', 'GGC', 'GGA', 'GGG'],                # G / Gly / Glycine
-    'H':['CAU', 'CAC'],                              # H / His / Histidine
-    'I':['AUU','AUC', 'AUA'],                        # I / Ile / Isoleucine
-    'K':['AAA', 'AAG'],                              # K / Lys / Lysine
-    'L':['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],  # L / Leu / Leucine
-    'M':['AUG'],                                     # M / Met / Methionine
-    'N':['AAU', 'AAC'],                              # N / Asn / Asparagine
-    'P':['CCU', 'CCC', 'CCA', 'CCG'],                # P / Pro / Proline
-    'Q':['CAA', 'CAG'],                              # Q / Gln / Glutamine
-    'R':['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],  # R / Arg / Arginine
-    'S':['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],  # S / Ser / Serine
-    'T':['ACU', 'ACC', 'ACA', 'ACG'],                # T / Thr / Threonine
-    'V':['GUU', 'GUC', 'GUA', 'GUG'],                # V / Val / Valine
-    'W':['UGG'],                                     # W / Trp / Tryptophan
-    'Y':['UAU', 'UAC'],                              # Y / Tyr / Tyrosine
-    '*':['UAA', 'UAG', 'UGA']                        # Stop Codons
-}
-
-# Reverse keys/values of 'dict_protein_to_codon'.
-DICT_CODON_TO_PROTEIN = {}
-for key, value in DICT_PROTEIN_TO_CODON.items():
-    for val in value:
-        if val in DICT_CODON_TO_PROTEIN:
-            DICT_CODON_TO_PROTEIN[val].append(key)
-        else:
-            DICT_CODON_TO_PROTEIN[val] = [key]
-
 ###########
 # Classes #
 ###########
 
 class SeqConvert():
     """Main 'seqconvert' class for converting between sequence types."""
-
-    # TODO Place base and codon variables here.
-    # TODO Correct the 'key, value' definition error (pylint).
 
     # PyLint Directives
     # pylint: disable=no-self-use
@@ -71,13 +31,50 @@ class SeqConvert():
     # - TODOs are left intact to help highlight where code needs to be
     #   changed in the next planned version of this software.
 
-    # CLASS INITIALISATION METHOD
+
+    # CLASS VARIABLES > CODON DICTIONARIES
+
+    protein_to_codon = {
+        'A':['GCU', 'GCC', 'GCA', 'GCG'],                # A / Ala / Alanine
+        'C':['UGU', 'UGC'],                              # C / Cys / Cysteine
+        'D':['GAU', 'GAC'],                              # D / Asp / Aspartic Acid
+        'E':['GAA', 'GAG'],                              # E / Glu / Glutamic Acid
+        'F':['UUU', 'UUC'],                              # F / Phe / Phenylalanine
+        'G':['GGU', 'GGC', 'GGA', 'GGG'],                # G / Gly / Glycine
+        'H':['CAU', 'CAC'],                              # H / His / Histidine
+        'I':['AUU','AUC', 'AUA'],                        # I / Ile / Isoleucine
+        'K':['AAA', 'AAG'],                              # K / Lys / Lysine
+        'L':['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],  # L / Leu / Leucine
+        'M':['AUG'],                                     # M / Met / Methionine
+        'N':['AAU', 'AAC'],                              # N / Asn / Asparagine
+        'P':['CCU', 'CCC', 'CCA', 'CCG'],                # P / Pro / Proline
+        'Q':['CAA', 'CAG'],                              # Q / Gln / Glutamine
+        'R':['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],  # R / Arg / Arginine
+        'S':['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],  # S / Ser / Serine
+        'T':['ACU', 'ACC', 'ACA', 'ACG'],                # T / Thr / Threonine
+        'V':['GUU', 'GUC', 'GUA', 'GUG'],                # V / Val / Valine
+        'W':['UGG'],                                     # W / Trp / Tryptophan
+        'Y':['UAU', 'UAC'],                              # Y / Tyr / Tyrosine
+        '*':['UAA', 'UAG', 'UGA']                        # Stop Codon
+    }
+
+    codon_to_protein = {}
+    for key, value in protein_to_codon.items():
+        for val in value:
+            if val in codon_to_protein:
+                codon_to_protein[val].append(key)
+            else:
+                codon_to_protein[val] = [key]
+
+
+    # CLASS METHODS > CLASS INITIALISATION
 
     def __init__(self, sequence="undefined"):
         """Initialisation class for 'seqconvert' program."""
         self.sequence = sequence
 
-# NEW SECTION #####################################################################################
+
+    # PUBLIC METHODS > FILE MANAGEMENT
 
     def read_fasta_file(self, file):
         """Read a FASTA file and return its xNA sequence as a string."""
@@ -113,7 +110,7 @@ class SeqConvert():
         print(f"\nSUCCESS: Sequence written to '{out_file}'.")
 
 
-    # SINGLE-STEP CONVERSION FUNCTIONS > PUBLIC METHODS
+    # PUBLIC METHODS > SINGLE-STEP SEQUENCE CONVERSION
 
     def dna_to_mrna(self, file):
         """Convert DNA sequence to mRNA sequence."""
@@ -181,44 +178,31 @@ class SeqConvert():
         return contents
 
 
-    def trna_to_protein(self, sequence):
+    def trna_to_protein(self, file):
         """Convert tRNA sequence to Protein sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | tRNA > Protein Translation\n"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
 
-        ###########################################################################################
         split_codons = []
         codon = 3
 
-        for index in range(0, len(contents), codon):
-            split_codons.append(contents[index : index + codon])
+        for index in range(0, len(sequence), codon):
+            split_codons.append(sequence[index : index + codon])
 
-        string = ""
-
+        string = ''
         for i in split_codons:
-            # Print first matching codon, remove '[0]' for all possible combos.
-            string += str(DICT_CODON_TO_PROTEIN[i][0])
-        print(string)
-        ###########################################################################################
+            string += str(self.codon_to_protein[i][0])
 
-        # Format sequence to 60-columns FASTA-style.
         contents = re.sub("(.{60})", "\\1\n", string, 0, re.DOTALL)
 
-        # Insert FASTA header to mRNA sequence.
         contents = header + contents
 
-        # Print translated sequence.
         print(contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(file, contents)
 
-        # Return translated sequence.
         return contents
 
 
