@@ -107,7 +107,7 @@ class SeqConvert():
             fasta_file.write(contents)
             fasta_file.close()
 
-        print(f"\nSUCCESS: Sequence written to '{out_file}'.")
+        print(f"SUCCESS: Sequence written to '{out_file}'.")
 
 
     ####################################################
