@@ -110,9 +110,9 @@ class SeqConvert():
         print(f"SUCCESS: Sequence written to '{out_file}'.")
 
 
-    ####################################################
-    # PUBLIC METHODS > SINGLE-STEP SEQUENCE CONVERSION #
-    ####################################################
+    #############################################################
+    # PUBLIC METHODS > SINGLE-STEP SEQUENCE FORWARDS CONVERSION #
+    #############################################################
 
     def dna_to_mrna(self, file):
         """Convert DNA sequence to mRNA sequence."""
@@ -210,6 +210,10 @@ class SeqConvert():
         return sequence
 
 
+    ##############################################################
+    # PUBLIC METHODS > SINGLE-STEP SEQUENCE BACKWARDS CONVERSION #
+    ##############################################################
+
     def protein_to_trna(self, sequence):
         """Convert Protein sequence to tRNA sequence."""
 
@@ -297,7 +301,9 @@ class SeqConvert():
         return contents
 
 
-    # MULTIPLE-STEP CONVERSION FUNCTIONS > PUBLIC METHODS
+    #######################################################
+    # MULTIPLE-STEP CONVERSION FUNCTIONS > PUBLIC METHODS #
+    #######################################################
 
     def dna_to_protein(self, sequence):
         """Convert DNA sequence to Protein sequence."""
