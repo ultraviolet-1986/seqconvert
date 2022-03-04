@@ -22,7 +22,9 @@ import sys
 class SeqConvert():
     """Main 'seqconvert' class for converting between sequence types."""
 
-    # CLASS VARIABLES > CODON DICTIONARIES
+    ########################################
+    # CLASS VARIABLES > CODON DICTIONARIES #
+    ########################################
 
     protein_to_codon = {
         'A':['GCU', 'GCC', 'GCA', 'GCG'],                # A / Ala / Alanine
@@ -57,14 +59,18 @@ class SeqConvert():
                 codon_to_protein[val] = [key]
 
 
-    # CLASS METHODS > CLASS INITIALISATION
+    ########################################
+    # CLASS METHODS > CLASS INITIALISATION #
+    ########################################
 
     def __init__(self, sequence="undefined"):
         """Initialisation class for 'seqconvert' program."""
         self.sequence = sequence
 
 
-    # PUBLIC METHODS > FILE MANAGEMENT
+    ####################################
+    # PUBLIC METHODS > FILE MANAGEMENT #
+    ####################################
 
     def read_fasta_file(self, file):
         """Read a FASTA file and return its xNA sequence as a string."""
@@ -104,7 +110,9 @@ class SeqConvert():
         print(f"\nSUCCESS: Sequence written to '{out_file}'.")
 
 
-    # PUBLIC METHODS > SINGLE-STEP SEQUENCE CONVERSION
+    ####################################################
+    # PUBLIC METHODS > SINGLE-STEP SEQUENCE CONVERSION #
+    ####################################################
 
     def dna_to_mrna(self, file):
         """Convert DNA sequence to mRNA sequence."""
@@ -133,7 +141,6 @@ class SeqConvert():
         contents = header + contents
 
         print(contents)
-
         self.write_fasta_file(file, contents)
 
         return sequence
@@ -166,10 +173,9 @@ class SeqConvert():
         contents = header + contents
 
         print(contents)
-
         self.write_fasta_file(file, contents)
 
-        return contents
+        return sequence
 
 
     def trna_to_protein(self, file):
@@ -185,11 +191,11 @@ class SeqConvert():
         for index in range(0, len(sequence), codon):
             split_codons.append(sequence[index : index + codon])
 
-        string = ''
+        protein_sequence = ''
         for i in split_codons:
-            string += str(self.codon_to_protein[i][0])
+            protein_sequence += str(self.codon_to_protein[i][0])
 
-        contents = re.sub("(.{60})", "\\1\n", string, 0, re.DOTALL)
+        contents = re.sub("(.{60})", "\\1\n", protein_sequence, 0, re.DOTALL)
 
         contents = header + contents
 
@@ -197,7 +203,8 @@ class SeqConvert():
 
         self.write_fasta_file(file, contents)
 
-        return contents
+        sequence = protein_sequence
+        return sequence
 
 
     def protein_to_trna(self, sequence):
