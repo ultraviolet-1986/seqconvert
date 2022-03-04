@@ -177,6 +177,46 @@ class SeqConvert():
         return self.sequence
 
 
+    ###############################################################
+    # PRIVATE METHODS > SINGLE-STEP SEQUENCE BACKWARDS CONVERSION #
+    ###############################################################
+
+    def __protein_to_trna(self, sequence):
+        """Convert Protein sequence to tRNA sequence."""
+
+        # PyLint Directives
+        # pylint: disable=unused-private-member
+
+        # TODO: Placeholder method. Insert conversion code here.
+
+        self.sequence = sequence
+        return self.sequence
+
+
+    def __trna_to_mrna(self, sequence):
+        """Convert tRNA sequence to mRNA sequence."""
+
+        # PyLint Directives
+        # pylint: disable=unused-private-member
+
+        # TODO: Placeholder method. Insert conversion code here.
+
+        self.sequence = sequence
+        return self.sequence
+
+
+    def __mrna_to_dna(self, sequence):
+        """Convert mRNA sequence to DNA sequence."""
+
+        # PyLint Directives
+        # pylint: disable=unused-private-member
+
+        # TODO: Placeholder method. Insert conversion code here.
+
+        self.sequence = sequence
+        return self.sequence
+
+
     #############################################################
     # PUBLIC METHODS > SINGLE-STEP SEQUENCE FORWARDS CONVERSION #
     #############################################################
@@ -240,91 +280,58 @@ class SeqConvert():
     # PUBLIC METHODS > SINGLE-STEP SEQUENCE BACKWARDS CONVERSION #
     ##############################################################
 
-    def protein_to_trna(self, sequence):
+    def protein_to_trna(self, file):
         """Convert Protein sequence to tRNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | Protein > tRNA Translation\n"
         suffix = "Protein-tRNA"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
+        sequence = self.__protein_to_trna(sequence)
 
-        # TODO INSERT CONVERSION CODE HERE
+        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
+        contents = header + sequence
 
-        # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
-
-        # Insert FASTA header to mRNA sequence.
-        contents = header + contents
-
-        # Print translated sequence.
         print(contents)
+        self.write_fasta_file(file, suffix, contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, suffix, contents)
-
-        # Return translated sequence.
-        return contents
+        return sequence
 
 
-    def trna_to_mrna(self, sequence):
+    def trna_to_mrna(self, file):
         """Convert tRNA sequence to mRNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | tRNA > mRNA Translation\n"
         suffix = "tRNA-mRNA"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
+        sequence = self.__trna_to_mrna(sequence)
 
-        # TODO INSERT CONVERSION CODE HERE
+        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
+        contents = header + sequence
 
-        # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
-
-        # Insert FASTA header to mRNA sequence.
-        contents = header + contents
-
-        # Print translated sequence.
         print(contents)
+        self.write_fasta_file(file, suffix, contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, suffix, contents)
-
-        # Return translated sequence.
-        return contents
+        return sequence
 
 
-    def mrna_to_dna(self, sequence):
+    def mrna_to_dna(self, file):
         """Convert mRNA sequence to DNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | mRNA > DNA Translation\n"
         suffix = "mRNA-DNA"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
+        sequence = self.__mrna_to_dna(sequence)
 
-        # TODO INSERT CONVERSION CODE HERE
+        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
+        contents = header + sequence
 
-        # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
-
-        # Insert FASTA header to mRNA sequence.
-        contents = header + contents
-
-        # Print translated sequence.
         print(contents)
+        self.write_fasta_file(file, suffix, contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, suffix, contents)
-
-        # Return translated sequence.
-        return contents
+        return sequence
 
 
     #######################################################
@@ -353,33 +360,25 @@ class SeqConvert():
         return sequence
 
 
-    def protein_to_dna(self, sequence):
+    def protein_to_dna(self, file):
         """Convert Protein sequence to DNA sequence."""
 
-        # Define FASTA header.
         header = "> seqconvert.py | Protein > DNA Translation\n"
         suffix = "Protein-DNA"
 
-        # Read data from the given file 'sequence' into the variable
-        # 'contents'.
-        contents = self.read_fasta_file(sequence)
+        sequence = self.read_fasta_file(file)
 
-        # TODO INSERT CONVERSION CODE HERE
+        sequence = self.__protein_to_trna(sequence)
+        sequence = self.__trna_to_mrna(sequence)
+        sequence = self.__mrna_to_dna(sequence)
 
-        # Format sequence to 60-columns FASTA-style.
-        contents = re.sub("(.{60})", "\\1\n", contents, 0, re.DOTALL)
+        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
+        contents = header + sequence
 
-        # Insert FASTA header to mRNA sequence.
-        contents = header + contents
-
-        # Print translated sequence.
         print(contents)
+        self.write_fasta_file(file, suffix, contents)
 
-        # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, suffix, contents)
-
-        # Return translated sequence.
-        return contents
+        return sequence
 
 
 # End of File.
