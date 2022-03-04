@@ -73,7 +73,7 @@ class SeqConvert():
     ####################################
 
     def read_fasta_file(self, file):
-        """Read a FASTA file and return its xNA sequence as a string."""
+        """Read a FASTA file and return the contained sequence as a string."""
 
         with open (file, encoding="utf-8") as fasta_file:
             header = fasta_file.readline()
@@ -93,7 +93,7 @@ class SeqConvert():
         sys.exit(1)
 
 
-    def write_fasta_file(self, file, contents):
+    def write_fasta_file(self, file, suffix, contents):
         """Write a FASTA-formatted sequence to file."""
 
         # PyLint Directives
@@ -101,7 +101,7 @@ class SeqConvert():
 
         filename, extension = os.path.splitext(file)
 
-        out_file = f"{filename} (converted){extension}"
+        out_file = f"{filename}_({suffix}){extension}"
 
         with open(out_file, 'w+', encoding='utf-8') as fasta_file:
             fasta_file.write(contents)
@@ -118,6 +118,7 @@ class SeqConvert():
         """Convert DNA sequence to mRNA sequence."""
 
         header = "> seqconvert.py | DNA > mRNA Translation\n"
+        suffix = "DNA-mRNA"
 
         sequence = self.read_fasta_file(file)
 
@@ -141,7 +142,7 @@ class SeqConvert():
         contents = header + contents
 
         print(contents)
-        self.write_fasta_file(file, contents)
+        self.write_fasta_file(file, suffix, contents)
 
         return sequence
 
@@ -150,6 +151,7 @@ class SeqConvert():
         """Convert mRNA sequence to tRNA sequence."""
 
         header = "> seqconvert.py | mRNA > tRNA Translation\n"
+        suffix = "mRNA-tRNA"
 
         sequence = self.read_fasta_file(file)
 
@@ -173,7 +175,7 @@ class SeqConvert():
         contents = header + contents
 
         print(contents)
-        self.write_fasta_file(file, contents)
+        self.write_fasta_file(file, suffix, contents)
 
         return sequence
 
@@ -182,6 +184,7 @@ class SeqConvert():
         """Convert tRNA sequence to Protein sequence."""
 
         header = "> seqconvert.py | tRNA > Protein Translation\n"
+        suffix = "tRNA-Protein"
 
         sequence = self.read_fasta_file(file)
 
@@ -201,7 +204,7 @@ class SeqConvert():
 
         print(contents)
 
-        self.write_fasta_file(file, contents)
+        self.write_fasta_file(file, suffix, contents)
 
         sequence = protein_sequence
         return sequence
@@ -212,6 +215,7 @@ class SeqConvert():
 
         # Define FASTA header.
         header = "> seqconvert.py | Protein > tRNA Translation\n"
+        suffix = "Protein-tRNA"
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
@@ -229,7 +233,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(sequence, suffix, contents)
 
         # Return translated sequence.
         return contents
@@ -240,6 +244,7 @@ class SeqConvert():
 
         # Define FASTA header.
         header = "> seqconvert.py | tRNA > mRNA Translation\n"
+        suffix = "tRNA-mRNA"
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
@@ -257,7 +262,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(sequence, suffix, contents)
 
         # Return translated sequence.
         return contents
@@ -268,6 +273,7 @@ class SeqConvert():
 
         # Define FASTA header.
         header = "> seqconvert.py | mRNA > DNA Translation\n"
+        suffix = "mRNA-DNA"
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
@@ -285,7 +291,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(sequence, suffix, contents)
 
         # Return translated sequence.
         return contents
@@ -298,6 +304,7 @@ class SeqConvert():
 
         # Define FASTA header.
         header = "> seqconvert.py | DNA > Protein Translation\n"
+        suffix = "DNA-Protein"
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
@@ -315,7 +322,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(sequence, suffix, contents)
 
         # Return translated sequence.
         return contents
@@ -326,6 +333,7 @@ class SeqConvert():
 
         # Define FASTA header.
         header = "> seqconvert.py | Protein > DNA Translation\n"
+        suffix = "Protein-DNA"
 
         # Read data from the given file 'sequence' into the variable
         # 'contents'.
@@ -343,7 +351,7 @@ class SeqConvert():
         print(contents)
 
         # Write updated version of 'contents' to a new file.
-        self.write_fasta_file(sequence, contents)
+        self.write_fasta_file(sequence, suffix, contents)
 
         # Return translated sequence.
         return contents
