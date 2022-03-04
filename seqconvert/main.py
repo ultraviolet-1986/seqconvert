@@ -69,21 +69,25 @@ class SeqConvert():
     def read_fasta_file(self, file):
         """Read a FASTA file and return its xNA sequence as a string."""
 
-        with open (file, encoding="utf-8") as fasta_file:
-            header = fasta_file.readline()
+        try:
+            with open (file, encoding="utf-8") as fasta_file:
+                header = fasta_file.readline()
 
-        if header[0] == '>':
-            with open(file, 'r', encoding='utf-8') as fasta_file:
-                sequence = fasta_file.readlines()
+            if header[0] == '>':
+                with open(file, 'r', encoding='utf-8') as fasta_file:
+                    sequence = fasta_file.readlines()
 
-            sequence.pop(0)
-            sequence = ''.join(sequence)
-            sequence = sequence.replace('\n', '')
+                sequence.pop(0)
+                sequence = ''.join(sequence)
+                sequence = sequence.replace('\n', '')
 
-            return self.sequence
+        # pylint: disable=bare-except
+        except:
+            print("ERROR: File does not appear to be FASTA format.")
+            sys.exit(1)
 
-        print("ERROR: File does not appear to be FASTA format.")
-        sys.exit(1)
+        self.sequence = sequence
+        return sequence
 
 
     def write_fasta_file(self, file, contents):
