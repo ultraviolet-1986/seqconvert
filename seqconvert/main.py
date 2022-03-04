@@ -11,8 +11,8 @@ Main 'seqconvert' class for converting between sequence types.
 # Imports #
 ###########
 
-import re
 import os
+import re
 import sys
 
 ###########
