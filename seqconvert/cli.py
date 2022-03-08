@@ -67,59 +67,46 @@ def cli():
               f"Copyright (C) 2022 {AUTHOR}\n",
               sep="\n")
 
-    # Failure: Too many arguments.
     elif len(sys.argv) > 3:
         print("ERROR: Too many arguments provided.")
         sys.exit(1)
 
-    # Failure: Not enough arguments.
     elif len(sys.argv) < 3:
         print("ERROR: An option and a sequence must be provided.")
         sys.exit(1)
 
-    # Failure: Target is a directory.
     elif path.isdir(sys.argv[2]):
         print("ERROR: Target is a directory. Please provide a file.")
         sys.exit(1)
 
-    # Failure: Target does not exist.
     elif not path.exists(sys.argv[2]):
         print("ERROR: Target", sys.argv[2], "does not exist.")
         sys.exit(1)
 
-    # Success: Handle '--dna-mrna' argument.
     elif sys.argv[1] == '--dna-mrna' or sys.argv[1] == '-dm':
         seq_convert.dna_to_mrna(sys.argv[2])
 
-    # Success: Handle '--mrna-trna' argument.
     elif sys.argv[1] == '--mrna-trna' or sys.argv[1] == '-mt':
         seq_convert.mrna_to_trna(sys.argv[2])
 
-    # Success: Handle '--trna-protein' argument.
     elif sys.argv[1] == '--trna-prot' or sys.argv[1] == '-tp':
         seq_convert.trna_to_protein(sys.argv[2])
 
-    # Success: Handle '--prot-trna' argument.
     elif sys.argv[1] == '--prot-trna' or sys.argv[1] == '-pt':
         seq_convert.protein_to_trna(sys.argv[2])
 
-    # Success: Handle '--trna-mrna' argument.
     elif sys.argv[1] == '--trna-mrna' or sys.argv[1] == '-tm':
         seq_convert.trna_to_mrna(sys.argv[2])
 
-    # Success: Handle '--mrna-dna' argument.
     elif sys.argv[1] == '--mrna-dna' or sys.argv[1] == '-md':
         seq_convert.mrna_to_dna(sys.argv[2])
 
-    # Success: Handle '--dna-prot' argument.
     elif sys.argv[1] == '--dna-prot' or sys.argv[1] == '-dp':
         seq_convert.dna_to_protein(sys.argv[2])
 
-    # Success: Handle '--prot-dna' argument.
     elif sys.argv[1] == '--prot-dna' or sys.argv[1] == '-pd':
         seq_convert.protein_to_dna(sys.argv[2])
 
-    # Failure: Catch all.
     else:
         print("ERROR: An unknown error occurred.")
         sys.exit(1)
