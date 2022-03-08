@@ -92,26 +92,6 @@ class SeqConvert():
         print("ERROR: File does not appear to be FASTA format.")
         sys.exit(1)
 
-    # def read_fasta_file(self, file):
-    #     """Read a FASTA file and return the contained sequence as a string."""
-
-    #     with open (file, encoding="utf-8") as fasta_file:
-    #         header = fasta_file.readline()
-
-    #     if header[0] == '>':
-    #         with open(file, 'r', encoding='utf-8') as fasta_file:
-    #             sequence = fasta_file.readlines()
-
-    #         sequence.pop(0)
-    #         sequence = ''.join(sequence)
-    #         sequence = sequence.replace('\n', '')
-
-    #         self.sequence = sequence
-    #         return sequence
-
-    #     print("ERROR: File does not appear to be FASTA format.")
-    #     sys.exit(1)
-
 
     @staticmethod
     def write_fasta_file(file, header, sequence, suffix):
