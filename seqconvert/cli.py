@@ -7,15 +7,8 @@ Author:   William Whinn
 Command-line interface for the 'seqconvert' class.
 """
 
-############################
-# Global PyLint Directives #
-############################
-
-# PyLint Directives
+# Global PyLint Directives
 # pylint: disable=relative-beyond-top-level
-
-# PyLint Notes
-# - False positive: Import is relative to current location.
 
 ###########
 # Imports #
@@ -28,8 +21,6 @@ from . import main
 ####################
 # Global Variables #
 ####################
-
-# PACKAGE METADATA
 
 AUTHOR = 'William Whinn'
 VERSION = '0.1.0'
