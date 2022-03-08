@@ -64,7 +64,7 @@ def cli():
     elif sys.argv[1] == '--version' or sys.argv[1] == '-v':
         print(f"seqconvert {VERSION}",
               f"<{URL}>".format(URL),
-              f"Copyright (C) 2021 {AUTHOR}\n",
+              f"Copyright (C) 2022 {AUTHOR}\n",
               sep="\n")
 
     # Failure: Too many arguments.
