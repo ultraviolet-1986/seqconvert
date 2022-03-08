@@ -137,23 +137,23 @@ class SeqConvert():
         return self.sequence
 
 
-    def __mrna_to_trna(self, sequence):
+    def __xrna_to_xrna(self, sequence):
         """Convert mRNA sequence to tRNA sequence."""
 
-        mrna_bases = {
+        bases_1 = {
             'A':'0', 'U':'1', 'G':'2', 'C':'3',
             'a':'4', 'u':'5', 'g':'6', 'c':'7'
         }
 
-        trna_bases = {
+        bases_2 = {
             'A':'1', 'U':'0', 'G':'3', 'C':'2',
             'a':'5', 'u':'4', 'g':'7','c':'6'
         }
 
-        for key, value in mrna_bases.items():
+        for key, value in bases_1.items():
             sequence = sequence.replace(key, value)
 
-        for key, value in trna_bases.items():
+        for key, value in bases_2.items():
             sequence = sequence.replace(value, key)
 
         self.sequence = sequence
@@ -246,7 +246,7 @@ class SeqConvert():
         suffix = "mRNA-tRNA"
 
         sequence = self.read_fasta_file(file)
-        sequence = self.__mrna_to_trna(sequence)
+        sequence = self.__xrna_to_xrna(sequence)
 
         contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
         contents = header + contents
@@ -305,7 +305,7 @@ class SeqConvert():
         suffix = "tRNA-mRNA"
 
         sequence = self.read_fasta_file(file)
-        sequence = self.__trna_to_mrna(sequence)
+        sequence = self.__xrna_to_xrna(sequence)
 
         sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
         contents = header + sequence
@@ -347,7 +347,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
 
         sequence = self.__dna_to_mrna(sequence)
-        sequence = self.__mrna_to_trna(sequence)
+        sequence = self.__xrna_to_xrna(sequence)
         sequence = self.__trna_to_protein(sequence)
 
         sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
