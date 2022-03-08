@@ -2,13 +2,20 @@
 
 ## Table of Contents
 
-- [Version 0.0.2](#version-002)
+- [Version 0.1.0](#version-010)
 - [University Version 0.0.1](#university-version-001)
 
-## Version 0.0.2
+## GitHub Version 0.1.0
 
-- To be available at <https://github.com/ultraviolet-1986/seqconvert> after the
-  submission deadline.
+- **Tuesday, 8th March 2022**
+  - Completed all translation paths.
+    - Codon selection is currently fixed at first listed within the codon
+      dictionary.
+  - Isolated file reading, writing, and conversion code to independent
+    functions.
+  - Changed file-naming convention to show what process has been applied to a
+    given file.
+  - Corrected most code using PyLint with minimal directives applied.
 
 ## University Version 0.0.1
 

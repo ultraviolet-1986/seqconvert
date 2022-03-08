@@ -1,6 +1,6 @@
 # seqconvert
 
-A Python application for converting DNA to RNA to Protein in multiple
+A Python application for converting DNA to mRNA to tRNA to Protein in multiple
 combinations.
 
 ## Table of Contents
@@ -9,7 +9,6 @@ combinations.
 - [Usage](#usage)
 - [Unit Testing](#unit-testing)
 - [Functionality](#functionality)
-- [Planned Updates](#planned-updates)
 
 ## Introduction
 
@@ -74,15 +73,15 @@ can be converted to `mRNA` by using the following command:
 python3 seqconvert.py --dna-mrna "test_dna.fas"
 ```
 
-`seqconvert` will create a new file called `test_dna-converted.fas`, which can
+`seqconvert` will create a new file called `test_dna_(DNA-mRNA).fas`, which can
 be converted to `tRNA` by using the following command:
 
 ```bash
-python3 seqconvert.py --mrna-trna "test_dna-converted.fas"
+python3 seqconvert.py --mrna-trna "test_dna_(DNA-mRNA).fas"
 ```
 
-The user should name their files manually to identify them correctly at each
-step of the process so that sequences will not be erroneously converted.
+A suffix naming the translation process is appended to the end of a filename,
+this prevents accidentally overwriting the original file.
 
 ## Unit Testing
 
@@ -110,17 +109,3 @@ the file extension intact.
 During conversion for `DNA`, `mRNA`, and `tRNA`, each of these bases are
 translated to a number so that conversion can be completed without creating
 duplicate base entries within the sequence.
-
-## Planned Updates
-
-The following functionality is not completely implemented (but planned for
-future versions):
-
-- tRNA > Protein Conversion.
-- Protein > tRNA Conversion.
-- tRNA > mRNA Conversion.
-- mRNA > DNA Conversion.
-- DNA > Protein Conversion.
-- Protein > DNA Conversion.
-- Public/Private class method implementation.
-- Output testing with BLAST.

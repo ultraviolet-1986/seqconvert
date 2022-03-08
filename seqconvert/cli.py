@@ -15,7 +15,7 @@ Command-line interface for the 'seqconvert' class.
 # pylint: disable=relative-beyond-top-level
 
 # PyLint Notes
-# - Import is relative to current location, this is a false positive.
+# - False positive: Import is relative to current location.
 
 ###########
 # Imports #
@@ -31,14 +31,9 @@ from . import main
 
 # PACKAGE METADATA
 
-# Semantic Version Number
-VERSION = '0.0.1'
-
-# URL Constructor
-NU_CODE = 'https://nucode.ncl.ac.uk/seq_convertomp/'
-PORTFOLIO = 'student-portfolios/c0075878-portfolio/'
-NAME = 'seqconvert'
-URL = "{0}{1}{2}".format(NU_CODE, PORTFOLIO, NAME)
+AUTHOR = 'William Whinn'
+VERSION = '0.1.0'
+URL = 'https://github.com/ultraviolet-1986/seqconvert'
 
 #############
 # Functions #
@@ -50,13 +45,8 @@ def cli():
     # PyLint Directives
     # pylint: disable=too-many-branches
 
-    # PyLint Notes
-    # - Numerous 'If' branches required for command-line validation.
-
-    # Create a new instance of the 'SeqConvert' object.
     seq_convert = main.SeqConvert()
 
-    # Success: Show 'seqconvert' help.
     if sys.argv[1] == '--help' or sys.argv[1] == '-h':
         print("Usage: seqconvert.py [OPTION] [SEQUENCE]\n",
               "  -h, --help\t\tDisplay this help and exit.",
@@ -71,11 +61,10 @@ def cli():
               "  -pd, --prot-dna\tConvert Protein sequence to DNA sequence.\n",
               sep="\n")
 
-    # Success: Show 'seqconvert' version information.
     elif sys.argv[1] == '--version' or sys.argv[1] == '-v':
-        print("seqconvert {0}".format(VERSION),
-              "<{0}>".format(URL),
-              "Copyright (C) 2021 William Whinn\n",
+        print(f"seqconvert {VERSION}",
+              f"<{URL}>".format(URL),
+              f"Copyright (C) 2021 {AUTHOR}\n",
               sep="\n")
 
     # Failure: Too many arguments.
