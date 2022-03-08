@@ -184,34 +184,38 @@ class SeqConvert():
     def __protein_to_trna(self, sequence):
         """Convert Protein sequence to tRNA sequence."""
 
-        # PyLint Directives
-        # pylint: disable=unused-private-member
+        split_codons = []
+        codon = 1
 
-        # TODO: Placeholder method. Insert conversion code here.
+        for index in range(0, len(sequence), codon):
+            split_codons.append(sequence[index : index + codon])
 
-        self.sequence = sequence
-        return self.sequence
+        string = ''
+        for i in split_codons:
+            string += str(self.protein_to_codon[i][0])
 
-
-    def __trna_to_mrna(self, sequence):
-        """Convert tRNA sequence to mRNA sequence."""
-
-        # PyLint Directives
-        # pylint: disable=unused-private-member
-
-        # TODO: Placeholder method. Insert conversion code here.
-
-        self.sequence = sequence
+        self.sequence = string
         return self.sequence
 
 
     def __mrna_to_dna(self, sequence):
         """Convert mRNA sequence to DNA sequence."""
 
-        # PyLint Directives
-        # pylint: disable=unused-private-member
+        mrna_bases = {
+            'A':'0', 'U':'1', 'G':'2', 'C':'3',
+            'a':'4', 'u':'5', 'g':'6', 'c':'7'
+        }
 
-        # TODO: Placeholder method. Insert conversion code here.
+        dna_bases = {
+            'A':'1', 'T':'0', 'G':'3', 'C':'2',
+            'a':'5', 't':'4', 'g':'7', 'c':'6'
+        }
+
+        for key, value in mrna_bases.items():
+            sequence = sequence.replace(key, value)
+
+        for key, value in dna_bases.items():
+            sequence = sequence.replace(value, key)
 
         self.sequence = sequence
         return self.sequence
@@ -369,7 +373,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
 
         sequence = self.__protein_to_trna(sequence)
-        sequence = self.__trna_to_mrna(sequence)
+        sequence = self.__xrna_to_xrna(sequence)
         sequence = self.__mrna_to_dna(sequence)
 
         sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
