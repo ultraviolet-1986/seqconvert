@@ -72,7 +72,8 @@ class SeqConvert():
     # PUBLIC METHODS > FILE MANAGEMENT #
     ####################################
 
-    def read_fasta_file(self, file):
+    @staticmethod
+    def read_fasta_file(file):
         """Read a FASTA file and return the contained sequence as a string."""
 
         with open (file, encoding="utf-8") as fasta_file:
@@ -86,14 +87,34 @@ class SeqConvert():
             sequence = ''.join(sequence)
             sequence = sequence.replace('\n', '')
 
-            self.sequence = sequence
             return sequence
 
         print("ERROR: File does not appear to be FASTA format.")
         sys.exit(1)
 
+    # def read_fasta_file(self, file):
+    #     """Read a FASTA file and return the contained sequence as a string."""
 
-    def write_fasta_file(self, file, header, sequence, suffix):
+    #     with open (file, encoding="utf-8") as fasta_file:
+    #         header = fasta_file.readline()
+
+    #     if header[0] == '>':
+    #         with open(file, 'r', encoding='utf-8') as fasta_file:
+    #             sequence = fasta_file.readlines()
+
+    #         sequence.pop(0)
+    #         sequence = ''.join(sequence)
+    #         sequence = sequence.replace('\n', '')
+
+    #         self.sequence = sequence
+    #         return sequence
+
+    #     print("ERROR: File does not appear to be FASTA format.")
+    #     sys.exit(1)
+
+
+    @staticmethod
+    def write_fasta_file(file, header, sequence, suffix):
         """Write a FASTA-formatted sequence to file."""
 
         # PyLint Directives
@@ -123,7 +144,8 @@ class SeqConvert():
     # PRIVATE METHODS > SINGLE-STEP SEQUENCE FORWARDS CONVERSION #
     ##############################################################
 
-    def __dna_to_mrna(self, sequence):
+    @staticmethod
+    def __dna_to_mrna(sequence):
         """Convert DNA sequence to mRNA sequence."""
 
         dna_bases = {
@@ -142,11 +164,11 @@ class SeqConvert():
         for key, value in mrna_bases.items():
             sequence = sequence.replace(value, key)
 
-        self.sequence = sequence
-        return self.sequence
+        return sequence
 
 
-    def __xrna_to_xrna(self, sequence):
+    @staticmethod
+    def __xrna_to_xrna(sequence):
         """Convert mRNA sequence to tRNA sequence."""
 
         bases_1 = {
@@ -165,11 +187,11 @@ class SeqConvert():
         for key, value in bases_2.items():
             sequence = sequence.replace(value, key)
 
-        self.sequence = sequence
-        return self.sequence
+        return sequence
 
 
-    def __trna_to_protein(self, sequence):
+    @staticmethod
+    def __trna_to_protein(sequence):
         """Convert tRNA sequence to Protein sequence."""
 
         split_codons = []
@@ -180,17 +202,17 @@ class SeqConvert():
 
         sequence = ''
         for i in split_codons:
-            sequence += str(self.codon_to_protein[i][0])
+            sequence += str(SeqConvert.codon_to_protein[i][0])
 
-        self.sequence = sequence
-        return self.sequence
+        return sequence
 
 
     ###############################################################
     # PRIVATE METHODS > SINGLE-STEP SEQUENCE BACKWARDS CONVERSION #
     ###############################################################
 
-    def __protein_to_trna(self, sequence):
+    @staticmethod
+    def __protein_to_trna(sequence):
         """Convert Protein sequence to tRNA sequence."""
 
         split_codons = []
@@ -201,13 +223,14 @@ class SeqConvert():
 
         string = ''
         for i in split_codons:
-            string += str(self.protein_to_codon[i][0])
+            string += str(SeqConvert.protein_to_codon[i][0])
 
-        self.sequence = string
-        return self.sequence
+        sequence = string
+        return sequence
 
 
-    def __mrna_to_dna(self, sequence):
+    @staticmethod
+    def __mrna_to_dna(sequence):
         """Convert mRNA sequence to DNA sequence."""
 
         mrna_bases = {
@@ -226,52 +249,54 @@ class SeqConvert():
         for key, value in dna_bases.items():
             sequence = sequence.replace(value, key)
 
-        self.sequence = sequence
-        return self.sequence
+        return sequence
 
 
     #############################################################
     # PUBLIC METHODS > SINGLE-STEP SEQUENCE FORWARDS CONVERSION #
     #############################################################
 
-    def dna_to_mrna(self, file):
+    @staticmethod
+    def dna_to_mrna(file):
         """Convert DNA sequence to mRNA sequence."""
 
         header = "> seqconvert.py | DNA > mRNA Translation\n"
         suffix = "DNA-mRNA"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__dna_to_mrna(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__dna_to_mrna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
 
-    def mrna_to_trna(self, file):
+    @staticmethod
+    def mrna_to_trna(file):
         """Convert mRNA sequence to tRNA sequence."""
 
         header = "> seqconvert.py | mRNA > tRNA Translation\n"
         suffix = "mRNA-tRNA"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__xrna_to_xrna(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__xrna_to_xrna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
 
-    def trna_to_protein(self, file):
+    @staticmethod
+    def trna_to_protein(file):
         """Convert tRNA sequence to Protein sequence."""
 
         header = "> seqconvert.py | tRNA > Protein Translation\n"
         suffix = "tRNA-Protein"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__trna_to_protein(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__trna_to_protein(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -280,44 +305,47 @@ class SeqConvert():
     # PUBLIC METHODS > SINGLE-STEP SEQUENCE BACKWARDS CONVERSION #
     ##############################################################
 
-    def protein_to_trna(self, file):
+    @staticmethod
+    def protein_to_trna(file):
         """Convert Protein sequence to tRNA sequence."""
 
         header = "> seqconvert.py | Protein > tRNA Translation\n"
         suffix = "Protein-tRNA"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__protein_to_trna(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__protein_to_trna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
 
-    def trna_to_mrna(self, file):
+    @staticmethod
+    def trna_to_mrna(file):
         """Convert tRNA sequence to mRNA sequence."""
 
         header = "> seqconvert.py | tRNA > mRNA Translation\n"
         suffix = "tRNA-mRNA"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__xrna_to_xrna(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__xrna_to_xrna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
 
-    def mrna_to_dna(self, file):
+    @staticmethod
+    def mrna_to_dna(file):
         """Convert mRNA sequence to DNA sequence."""
 
         header = "> seqconvert.py | mRNA > DNA Translation\n"
         suffix = "mRNA-DNA"
 
-        sequence = self.read_fasta_file(file)
-        sequence = self.__mrna_to_dna(sequence)
+        sequence = SeqConvert.read_fasta_file(file)
+        sequence = SeqConvert.__mrna_to_dna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -326,36 +354,38 @@ class SeqConvert():
     # MULTIPLE-STEP CONVERSION FUNCTIONS > PUBLIC METHODS #
     #######################################################
 
-    def dna_to_protein(self, file):
+    @staticmethod
+    def dna_to_protein(file):
         """Convert DNA sequence to Protein sequence."""
 
         header = "> seqconvert.py | DNA > Protein Translation\n"
         suffix = "DNA-Protein"
 
-        sequence = self.read_fasta_file(file)
+        sequence = SeqConvert.read_fasta_file(file)
 
-        sequence = self.__dna_to_mrna(sequence)
-        sequence = self.__xrna_to_xrna(sequence)
-        sequence = self.__trna_to_protein(sequence)
+        sequence = SeqConvert.__dna_to_mrna(sequence)
+        sequence = SeqConvert.__xrna_to_xrna(sequence)
+        sequence = SeqConvert.__trna_to_protein(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
 
-    def protein_to_dna(self, file):
+    @staticmethod
+    def protein_to_dna(file):
         """Convert Protein sequence to DNA sequence."""
 
         header = "> seqconvert.py | Protein > DNA Translation\n"
         suffix = "Protein-DNA"
 
-        sequence = self.read_fasta_file(file)
+        sequence = SeqConvert.read_fasta_file(file)
 
-        sequence = self.__protein_to_trna(sequence)
-        sequence = self.__xrna_to_xrna(sequence)
-        sequence = self.__mrna_to_dna(sequence)
+        sequence = SeqConvert.__protein_to_trna(sequence)
+        sequence = SeqConvert.__xrna_to_xrna(sequence)
+        sequence = SeqConvert.__mrna_to_dna(sequence)
 
-        self.write_fasta_file(file, header, sequence, suffix)
+        SeqConvert.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
