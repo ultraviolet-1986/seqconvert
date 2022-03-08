@@ -93,11 +93,19 @@ class SeqConvert():
         sys.exit(1)
 
 
-    def write_fasta_file(self, file, suffix, contents):
+    def write_fasta_file(self, file, header, sequence, suffix):
         """Write a FASTA-formatted sequence to file."""
 
         # PyLint Directives
         # pylint: disable=no-self-use
+
+        # Format file contents
+
+        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
+
+        contents = header + sequence
+
+        # Define/write output file
 
         filename, extension = os.path.splitext(file)
 
@@ -107,6 +115,7 @@ class SeqConvert():
             fasta_file.write(contents)
             fasta_file.close()
 
+        print(contents)
         print(f"\nSUCCESS: Sequence written to '{out_file}'.")
 
 
@@ -234,11 +243,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__dna_to_mrna(sequence)
 
-        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + contents
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -252,11 +257,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__xrna_to_xrna(sequence)
 
-        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + contents
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -270,12 +271,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__trna_to_protein(sequence)
 
-        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-
-        contents = header + contents
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -293,11 +289,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__protein_to_trna(sequence)
 
-        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + sequence
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -311,11 +303,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__xrna_to_xrna(sequence)
 
-        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + sequence
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -329,11 +317,7 @@ class SeqConvert():
         sequence = self.read_fasta_file(file)
         sequence = self.__mrna_to_dna(sequence)
 
-        contents = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + sequence
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -354,12 +338,7 @@ class SeqConvert():
         sequence = self.__xrna_to_xrna(sequence)
         sequence = self.__trna_to_protein(sequence)
 
-        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-
-        contents = header + sequence
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
@@ -376,11 +355,7 @@ class SeqConvert():
         sequence = self.__xrna_to_xrna(sequence)
         sequence = self.__mrna_to_dna(sequence)
 
-        sequence = re.sub("(.{60})", "\\1\n", sequence, 0, re.DOTALL)
-        contents = header + sequence
-
-        print(contents)
-        self.write_fasta_file(file, suffix, contents)
+        self.write_fasta_file(file, header, sequence, suffix)
 
         return sequence
 
